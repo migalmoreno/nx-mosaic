@@ -46,13 +46,17 @@
   (:export-accessor-names-p t)
   (:export-slot-names-p t)
   (:accessor-name-transformer (class*:make-name-transformer name))
-  (:documentation "A time widget."))
+  (:documentation "A time widget.")
+  (:metaclass user-class))
 
 (defmethod display-widget ((widget time-widget) buffer)
   (let ((time-style
           (theme:themed-css (theme *browser*)
             ("#time"
-             :font-size (font-size (font-settings widget))))))
+             :font-size (font-size (font-settings widget)))
+            ("@media screen and (max-width: 768px)"
+             ("#time"
+              :font-size "40px")))))
     (hooks:once-on (nyxt:buffer-loaded-hook buffer) (buffer)
       (ps-eval
         :buffer buffer
@@ -84,12 +88,16 @@
   (:export-accessor-names-p t)
   (:export-slot-names-p t)
   (:accessor-name-transformer (class*:make-name-transformer name))
-  (:documentation "A greeting widget."))
+  (:documentation "A greeting widget.")
+  (:metaclass user-class))
 
 (defmethod display-widget ((widget greeting-widget) buffer)
   (let ((greeting-style (theme:themed-css (theme *browser*)
                           ("#greeting"
-                           :font-size (font-size (font-settings widget))))))
+                           :font-size (font-size (font-settings widget)))
+                          ("@media screen and (max-width: 768px)"
+                           ("#greeting"
+                            :font-size "20px")))))
     (hooks:once-on (nyxt:buffer-loaded-hook buffer) (buffer)
       (ps-eval
         :buffer buffer
