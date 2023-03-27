@@ -52,12 +52,12 @@
 (defmethod display-widget ((widget time-widget) buffer)
   (let ((time-style
           (theme:themed-css (theme *browser*)
-            ("#time"
-             :font-size (font-size (font-settings widget)))
-            ("@media screen and (max-width: 768px)"
-             ("#time"
-              :font-size "40px")))))
-    (hooks:once-on (nyxt:buffer-loaded-hook buffer) (buffer)
+            `("#time"
+              :font-size ,(font-size (font-settings widget)))
+            `("@media screen and (max-width: 768px)"
+              ("#time"
+               :font-size "40px")))))
+    (hooks:once-on (buffer-loaded-hook buffer) (buffer)
       (ps-eval
         :buffer buffer
         (defun set-time ()
@@ -93,12 +93,12 @@
 
 (defmethod display-widget ((widget greeting-widget) buffer)
   (let ((greeting-style (theme:themed-css (theme *browser*)
-                          ("#greeting"
-                           :font-size (font-size (font-settings widget)))
-                          ("@media screen and (max-width: 768px)"
-                           ("#greeting"
-                            :font-size "20px")))))
-    (hooks:once-on (nyxt:buffer-loaded-hook buffer) (buffer)
+                          `("#greeting"
+                            :font-size ,(font-size (font-settings widget)))
+                          `("@media screen and (max-width: 768px)"
+                            ("#greeting"
+                             :font-size "20px")))))
+    (hooks:once-on (buffer-loaded-hook buffer) (buffer)
       (ps-eval
         :buffer buffer
         (defun set-greeting ()
@@ -137,18 +137,18 @@
     (buffer "*Mosaic*" 'nyxt:base-mode)
   "Open a `nx-mosaic' page."
   (let ((mosaic-style (theme:themed-css (theme *browser*)
-                        (body
-                         :padding 0
-                         :margin 0
-                         :background theme:background
-                         :color theme:on-background)
-                        ("#mosaic-container"
-                         :height "100vh"
-                         :display "flex"
-                         :align-items "center"
-                         :text-align "center"
-                         :flex-wrap "wrap"
-                         :justify-content "center"))))
+                        `(body
+                          :padding 0
+                          :margin 0
+                          :background ,theme:background
+                          :color ,theme:on-background)
+                        `("#mosaic-container"
+                          :height "100vh"
+                          :display "flex"
+                          :align-items "center"
+                          :text-align "center"
+                          :flex-wrap "wrap"
+                          :justify-content "center"))))
     (spinneret:with-html-string
       (:style mosaic-style)
       (:div :id "mosaic-container"
