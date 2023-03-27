@@ -10,6 +10,7 @@
                 #:current-buffer
                 #:url
                 #:buffer
+                #:buffer-loaded-hook
                 #:*browser*
                 #:theme
                 #:ps-eval)
