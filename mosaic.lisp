@@ -1,5 +1,3 @@
-;; TODO: Add bookmark widget
-;; TODO: Add weather widget
 (in-package #:nx-mosaic)
 (nyxt:use-nyxt-package-nicknames)
 
