@@ -139,17 +139,22 @@
                           :padding 0
                           :margin 0
                           :background ,theme:background
-                          :color ,theme:on-background)
-                        `("#mosaic-container"
-                          :height "100vh"
-                          :display "flex"
-                          :align-items "center"
-                          :text-align "center"
-                          :flex-wrap "wrap"
-                          :justify-content "center"))))
+                          :color ,theme:on-background
+                          (|#mosaic-container|
+                           :height "100vh"
+                           :display "flex"
+                           :align-items "center"
+                           :text-align "center"
+                           :flex-wrap "wrap"
+                           :justify-content "center")))))
     (spinneret:with-html-string
-      (:style mosaic-style)
-      (:div :id "mosaic-container"
-            (:div :class "widgets-container"
-                  (loop for widget in *widgets*
-                        collect (:raw (display-widget widget buffer))))))))
+      (:html
+       (:head
+        (:link :rel "stylesheet"
+               :href "https://use.fontawesome.com/releases/v6.3.0/css/all.css"))
+       (:body
+        (:style mosaic-style)
+        (:div :id "mosaic-container"
+              (:div :class "widgets-container"
+                    (loop for widget in *widgets*
+                          collect (:raw (display widget buffer))))))))))
