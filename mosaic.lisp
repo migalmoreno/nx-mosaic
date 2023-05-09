@@ -1,23 +1,20 @@
 (in-package #:nx-mosaic)
 (nyxt:use-nyxt-package-nicknames)
 
-(define-class font-settings ()
+(define-class settings ()
   ((font-size
     14
-    :type number
-    :documentation "The font size to use."))
+    :type number))
   (:export-class-name-p t)
   (:export-accessor-names-p t)
   (:export-slot-names-p t)
   (:accessor-name-transformer (class*:make-name-transformer name))
-  (:documentation "The font settings to use throughout widgets.")
   (:metaclass user-class))
 
 (define-class widget ()
-  ((font-settings
-    (make-instance 'font-settings)
-    :type font-settings
-    :documentation "The font settings for the widget.")
+  ((settings
+    (make-instance 'settings)
+    :type settings)
    (visible-p
     t
     :type boolean
@@ -37,8 +34,9 @@
     nil
     :type (or null string)
     :documentation "The timezone to display time for.")
-   (font-settings
-    (make-instance 'font-settings
+    :type (maybe string))
+   (settings
+    (make-instance 'settings
                    :font-size 80)))
   (:export-class-name-p t)
   (:export-accessor-names-p t)
@@ -50,10 +48,10 @@
 (defmethod display-widget ((widget time-widget) buffer)
   (let ((time-style
           (theme:themed-css (theme *browser*)
-            `("#time"
-              :font-size ,(font-size (font-settings widget)))
-            `("@media screen and (max-width: 768px)"
-              ("#time"
+            `(|#time|
+              :font-size ,(font-size (settings widget)))
+            `(:media "(max-width: 768px)"
+              (|#time|
                :font-size "40px")))))
     (hooks:once-on (buffer-loaded-hook buffer) (buffer)
       (ps-eval
@@ -79,8 +77,9 @@
     nil
     :type (or null string)
     :documentation "The name to show in the greeting.")
-   (font-settings
-    (make-instance 'font-settings
+    :type (maybe string))
+   (settings
+    (make-instance 'settings
                    :font-size 40)))
   (:export-class-name-p t)
   (:export-accessor-names-p t)
@@ -91,10 +90,10 @@
 
 (defmethod display-widget ((widget greeting-widget) buffer)
   (let ((greeting-style (theme:themed-css (theme *browser*)
-                          `("#greeting"
-                            :font-size ,(font-size (font-settings widget)))
-                          `("@media screen and (max-width: 768px)"
-                            ("#greeting"
+                          `(|#greeting|
+                            :font-size ,(font-size (settings widget)))
+                          `(:media "(max-width: 768px)"
+                            (|#greeting|
                              :font-size "20px")))))
     (hooks:once-on (buffer-loaded-hook buffer) (buffer)
       (ps-eval
