@@ -13,7 +13,9 @@
                 #:buffer-loaded-hook
                 #:*browser*
                 #:theme
-                #:ps-eval)
+                #:ps-eval
+                #:maybe
+                #:list-of)
   (:import-from #:serapeum
                 #:->
                 #:export-always)
