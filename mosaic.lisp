@@ -17,23 +17,19 @@
     :type settings)
    (visible-p
     t
-    :type boolean
-    :documentation "Whether the widget should be shown."))
+    :type boolean))
   (:export-class-name-p t)
   (:export-accessor-names-p t)
   (:export-slot-names-p t)
   (:accessor-name-transformer (class*:make-name-transformer name))
-  (:documentation "An individual widget.")
   (:metaclass user-class))
 
-(defgeneric display-widget (widget buffer)
+(defgeneric display (widget buffer)
   (:documentation "Display the markup of WIDGET in BUFFER."))
 
 (define-class time-widget (widget)
   ((timezone
     nil
-    :type (or null string)
-    :documentation "The timezone to display time for.")
     :type (maybe string))
    (settings
     (make-instance 'settings
@@ -42,10 +38,9 @@
   (:export-accessor-names-p t)
   (:export-slot-names-p t)
   (:accessor-name-transformer (class*:make-name-transformer name))
-  (:documentation "A time widget.")
   (:metaclass user-class))
 
-(defmethod display-widget ((widget time-widget) buffer)
+(defmethod display ((widget time-widget) buffer)
   (let ((time-style
           (theme:themed-css (theme *browser*)
             `(|#time|
@@ -75,8 +70,6 @@
 (define-class greeting-widget (widget)
   ((name
     nil
-    :type (or null string)
-    :documentation "The name to show in the greeting.")
     :type (maybe string))
    (settings
     (make-instance 'settings
@@ -85,10 +78,9 @@
   (:export-accessor-names-p t)
   (:export-slot-names-p t)
   (:accessor-name-transformer (class*:make-name-transformer name))
-  (:documentation "A greeting widget.")
   (:metaclass user-class))
 
-(defmethod display-widget ((widget greeting-widget) buffer)
+(defmethod display ((widget greeting-widget) buffer)
   (let ((greeting-style (theme:themed-css (theme *browser*)
                           `(|#greeting|
                             :font-size ,(font-size (settings widget)))
