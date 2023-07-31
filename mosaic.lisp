@@ -8,7 +8,6 @@
   (:export-class-name-p t)
   (:export-accessor-names-p t)
   (:export-slot-names-p t)
-  (:accessor-name-transformer (class*:make-name-transformer name))
   (:metaclass user-class))
 
 (define-class widget ()
@@ -21,7 +20,6 @@
   (:export-class-name-p t)
   (:export-accessor-names-p t)
   (:export-slot-names-p t)
-  (:accessor-name-transformer (class*:make-name-transformer name))
   (:metaclass user-class))
 
 (defgeneric display (widget buffer)
@@ -37,7 +35,6 @@
   (:export-class-name-p t)
   (:export-accessor-names-p t)
   (:export-slot-names-p t)
-  (:accessor-name-transformer (class*:make-name-transformer name))
   (:metaclass user-class))
 
 (defmethod display ((widget time-widget) buffer)
@@ -77,7 +74,6 @@
   (:export-class-name-p t)
   (:export-accessor-names-p t)
   (:export-slot-names-p t)
-  (:accessor-name-transformer (class*:make-name-transformer name))
   (:metaclass user-class))
 
 (defmethod display ((widget greeting-widget) buffer)
