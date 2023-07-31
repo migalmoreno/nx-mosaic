@@ -1,6 +1,10 @@
-# -*- mode: org; org-html-head-include-default-style: nil; org-html-postamble: nil; -*-
+# -*- mode: org; org-html-head-include-default-style: nil; org-html-postamble: nil; after-save-hook: org-md-export-to-markdown; -*-
 #+OPTIONS: toc:nil
 * nx-mosaic
-=nx-mosaic= is an extensible and configurable new-buffer page for Nyxt. It's inspired by [[https://tabliss.io/][Tabliss]], and aims to create a Nyxt-native new-buffer page experience users can adapt to their needs.
+=nx-mosaic= is a configurable new-buffer page for Nyxt. It's inspired by [[https://tabliss.io/][Tabliss]], and aims to create a Nyxt-native new-buffer page that you can control to your heart's content.
 
-Currently supported widgets include personal greeting, clock/date, and wallpapers, and support for new ones is on the road-map.
+** Widgets
+- [X] Personal greeting
+- [X] Clock/date
+- [ ] Wallpaper
+- [ ] Weather
