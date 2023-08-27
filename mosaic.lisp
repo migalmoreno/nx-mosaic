@@ -27,8 +27,8 @@
 
 (define-class time-widget (widget)
   ((timezone
-    nil
-    :type (maybe string))
+    local-time:*default-timezone*
+    :type (maybe string local-time::timezone))
    (settings
     (make-instance 'settings
                    :font-size 80)))
@@ -38,7 +38,10 @@
   (:metaclass user-class))
 
 (defmethod display ((widget time-widget) buffer)
-  (let ((time-style
+  (let ((timezone (if (local-time::timezone-p (timezone widget))
+                      (local-time:zone-name (timezone widget))
+                      (timezone widget)))
+        (time-style
           (theme:themed-css (theme *browser*)
             `(|#time|
               :font-size ,(font-size (settings widget)))
@@ -56,7 +59,8 @@
                              (array)
                              (ps:create hour "2-digit"
                                         minute "2-digit"
-                                        hour12 nil))))))
+                                        hour12 nil
+                                        "timeZone" (ps:lisp timezone)))))))
         (set-time)
         (ps:chain window (|setInterval| |setTime| 1000))))
     (spinneret:with-html-string
