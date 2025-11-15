@@ -118,11 +118,17 @@
                 (str:concat (when (name widget)
                               (str:concat ", " (name widget))))))))))
 
-(defparameter *widgets*
-  (list
-   (make-instance 'time-widget)
-   (make-instance 'greeting-widget))
-  "The list of widgets")
+(define-class page ()
+  ((widgets
+    (list
+     (make-instance 'time-widget)
+     (make-instance 'greeting-widget))
+    :type (list-of widget)
+    :documentation "The list of widgets to render in the page."))
+  (:export-class-name-p t)
+  (:export-accessor-names-p t)
+  (:export-slot-names-p t)
+  (:metaclass user-class))
 
 (nyxt::define-internal-page-command-global mosaic ()
     (buffer "*Mosaic*" 'nyxt:base-mode)
@@ -149,5 +155,5 @@
         (:style mosaic-style)
         (:div :id "mosaic-container"
               (:div :class "widgets-container"
-                    (loop for widget in *widgets*
+                    (loop for widget in (widgets (make-instance 'page))
                           collect (:raw (display widget buffer))))))))))
