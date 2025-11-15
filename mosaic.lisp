@@ -84,7 +84,8 @@
 (defmethod display ((widget greeting-widget) buffer)
   (let ((greeting-style (theme:themed-css (theme *browser*)
                           `(|#greeting|
-                            :font-size ,(font-size (settings widget)))
+                            :font-size ,(font-size (settings widget))
+                            :display flex)
                           `(:media "(max-width: 768px)"
                             (|#greeting|
                              :font-size "20px")))))
@@ -114,8 +115,8 @@
        (:h1 :id "greeting"
             (:p :id "message")
             (:p :id "name"
-                   (str:concat (when (name widget)
-                                 (str:concat " ," (name widget))))))))))
+                (str:concat (when (name widget)
+                              (str:concat ", " (name widget))))))))))
 
 (defparameter *widgets*
   (list
