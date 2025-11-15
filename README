@@ -1,10 +1,71 @@
 # -*- mode: org; org-html-head-include-default-style: nil; org-html-postamble: nil; -*-
 #+OPTIONS: toc:nil num:nil
 #+TITLE: nx-mosaic
-=nx-mosaic= is a configurable new-buffer page for Nyxt. It's inspired by [[https://tabliss.io/][Tabliss]], and aims to create a Nyxt-native new-buffer page that you can control to your heart's content.
+=nx-mosaic= is a configurable new-buffer page for Nyxt. It's inspired by [[https://tabliss.io/][Tabliss]], and aims to create a Nyxt-native new-buffer page that you can control to your heart's content via customizable widgets.
 
-* Widgets
+* Installation
+To install the extension, you need to download the source and place it in Nyxt's extensions path, given by the value of =nyxt-source-registry= (by default =~/.local/share/nyxt/extensions=).
+
+#+begin_src sh
+git clone https://github.com/migalmoreno/nx-mosaic ~/.local/share/nyxt/extensions/nx-mosaic
+#+end_src
+
+The extension works with *Nyxt 3 onward* but it's encouraged to use it with the latest version of Nyxt master for the time being.
+
+If you want to place the extension elsewhere in the system, such as for development purposes, you can configure so via the ASDF source registry mechanism. For this, you'll need to create a file in the source registry directory, =~/.config/common-lisp/source-registry.conf.d/=, and then put the following contents into it, replacing the path with the desired system path.
+
+#+name: 10-personal-lisp.conf
+#+begin_src lisp
+(:tree "/path/to/user/location")
+#+end_src
+
+Then, make sure to refresh the ASDF cache via =asdf:clear-source-registry=. ASDF will now be able to find the extension in the custom path. For more information on this utility, please refer to the [[https://asdf.common-lisp.dev/asdf.html][ASDF manual]].
+
+By default, Nyxt won't read the custom source registry path we provided, so ensure to include a =reset-asdf-registries= invocation in Nyxt's configuration file too.
+
+In your Nyxt configuration file, place the following.
+
+#+begin_src lisp
+(define-nyxt-user-system-and-load nyxt-user/mosaic
+  :depends-on (nx-mosaic)
+  :components ("mosaic.lisp"))
+#+end_src
+
+Where =mosaic.lisp= is a custom file that you should create relative to Nyxt's configuration directory (=*config-file*='s pathname by default) to provide the extension settings after the =nx-mosaic= system has been successfully loaded. These options are explained in the following section.
+
+* Configuration
+To use =nx-mosaic='s page as your default new buffer URL in Nyxt, you first need to add this to your =mosaic.lisp= configuration file:
+
+#+begin_src lisp
+(define-configuration browser
+  ((default-new-buffer-url (quri:uri "nyxt:nx-mosaic:mosaic"))))
+#+end_src
+
+To configure the list of widgets add this:
+
+#+begin_src lisp
+(define-configuration mosaic:page
+  ((mosaic:widgets
+    (list
+     (make-instance 'mosaic:time-widget)
+     (make-instance 'mosaic:greeting-widget)))))
+#+end_src
+
+You can configure the widget options inside of the above list via class slots, or if you want options to apply to all instances configure the widget user classes:
+
+#+begin_src lisp
+(define-configuration mosaic:time-widget
+  ((mosaic:timezone "<your_timezone>")
+   (mosaic:settings (make-instance 'mosaic:settings :font-size 80))))
+
+(define-configuration mosaic:greeting-widget
+  ((mosaic:name "<your_name>")
+   (mosaic:settings (make-instance 'mosaic:settings :font-size 40))))
+#+end_src
+
+Currently available widgets and those in the roadmap include:
 - [X] Personal greeting
 - [X] Clock/date
 - [ ] Wallpaper
 - [ ] Weather
+- [ ] To-dos
