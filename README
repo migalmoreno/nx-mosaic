@@ -31,10 +31,10 @@ In your Nyxt configuration file, place the following.
   :components ("mosaic.lisp"))
 #+end_src
 
-Where =mosaic.lisp= is a custom file that you should create relative to Nyxt's configuration directory (=*config-file*='s pathname by default) to provide the extension settings after the =nx-mosaic= system has been successfully loaded. These options are explained in the following section.
+Where =mosaic.lisp= is a custom file that you should create relative to Nyxt's configuration directory (=~/.config/nyxt/= by default) to provide the extension settings after the =nx-mosaic= system has been successfully loaded. These options are explained in the following section.
 
 * Configuration
-To use =nx-mosaic='s page as your default new buffer URL in Nyxt, you first need to add this to your =mosaic.lisp= configuration file:
+To use =nx-mosaic='s page as your default new buffer page in Nyxt, you first need to add this to your =mosaic.lisp= configuration file:
 
 #+begin_src lisp
 (define-configuration browser
